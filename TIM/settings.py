@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Our app's
+    'sms',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -119,3 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Twilio Settings
+TWILIO_ACCOUNT_SID = 'AC22b2c5b85531fe5383ad0e9bebb88259'
+TWILIO_AUTH_TOKEN = 'ec3c84ad3370157c456d61813b53fe3a'
+TWILIO_PHONE_NUMBER = '+4915735981041'
