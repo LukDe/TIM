@@ -1,0 +1,62 @@
+{% extends "tim/base.html" %}
+
+{% block content %}
+
+
+<div class="center-block tim-login-container">
+  {% load staticfiles %}
+  <img class="tim-login-logo center-block" alt="tim-logo" src="{% static 'tim/tim_logo_transparent.png' %}"/>
+  <ul class="nav nav-tabs">
+    <li id="tab-register" role="presentation"><a href="#">Registrieren</a></li>
+    <li id="tab-user-login" role="presentation"><a href="#">User Einloggen</a></li>
+    <li id="tab-phone-login" role="presentation"><a href="#">Handy Einloggen</a></li>
+  </ul>
+
+  <div id="form-register" class="tim-login-form">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+        <input type="text" class="form-control" placeholder="Benutzername"/>
+      </div>
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+        <input type="text" class="form-control" placeholder="Password"/>
+      </div>
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
+        <input type="text" class="form-control" placeholder="Handynummer"/>
+      </div>
+    </div>
+    <button class="btn btn-primary pull-right">Neuer Benutzer</button>
+  </div>
+
+  <div id="form-user-login" class="tim-login-form">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+        <input type="text" class="form-control" placeholder="Benutzername"/>
+      </div>
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+        <input type="text" class="form-control" placeholder="Password"/>
+      </div>
+    </div>
+    <button class="btn btn-primary pull-right">Einloggen</button>
+  </div>
+
+  <div id="form-phone-login" class="tim-login-form">
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
+        <input type="text" class="form-control" placeholder="Handynummer"/>
+      </div>
+      <div class="input-group">
+        <div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+        <input type="text" class="form-control" placeholder="Ortseingabe"/>
+      </div>
+    </div>
+    <button class="btn btn-primary pull-right">Einloggen</button>
+  </div>
+</div>
+
+{% endblock %}
