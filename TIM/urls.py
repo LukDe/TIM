@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 
-from tim import views
+from tim_app import views
 
 urlpatterns = [
     # Redirect user to /tim if no path is specified.
@@ -25,5 +25,5 @@ urlpatterns = [
     # Admin page.
     url(r'^admin/', admin.site.urls),
     # Initial app page.
-    url(r'^tim/', include('tim.urls')),
+    url(r'^tim/', include('tim_app.urls')),
 ]
