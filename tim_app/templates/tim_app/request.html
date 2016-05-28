@@ -5,7 +5,8 @@
       {% load staticfiles %} 
       <div class="container">
          <h3>Ich suche...</h3>
-         <form role="form" method="post">
+         <form action="{% url 'tim_app:request' %}" role="form" method="post">
+            {% csrf_token %}
             <!-- Icons -->
             <div class="form-group">
                <label class="radio-inline">
