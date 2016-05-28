@@ -1,0 +1,46 @@
+{% extends "tim_app/base.html" %}
+
+   {% block content %}
+
+      {% load staticfiles %} 
+  
+      <div class="container">
+         <h3>Ich biete...</h3>
+         <form role="form" method="post">
+            <!-- Icons -->
+            <div class="form-group">
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="water"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="wasser">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="food"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="nahrung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="woundcare"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="wundversorgung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="clothes"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="kleidung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="accomodation"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="unterkunft">
+               </label>
+            </div>
+            <!-- Wie viel? -->		
+            <div class="form-group">
+               <label for="unit">Wie viel?</label>
+               <input type="text" class="form-control" id="unit" placeholder="Wie viel bieten Sie an?">
+            </div>
+            <!-- PLZ -->
+            <div class="form-group">
+               <label for="location">Wo?</label>
+               <input type="text" class="form-control" id="location"  placeholder="PLZ">
+            </div>
+            <!-- Umkreis -->
+            <div class="form-group">
+               <label for="area">Umkreis:</label>
+               <input type="text" class="form-control" id="area" placeholder="In welchem Umkreis?">
+            </div>
+            <button type="submit" class="btn btn-default">Abschicken</button>
+         </form>
+      </div>
+	{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "tim_app/base.html" %}
+
+   {% block content %}
+
+      {% load staticfiles %} 
+      <div class="container">
+         <h3>Ich suche...</h3>
+         <form role="form" method="post">
+            <!-- Icons -->
+            <div class="form-group">
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="water" onchange="disableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="wasser">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="food" onchange="disableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="nahrung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="woundcare" onchange="disableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="wundversorgung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="clothes" onchange="disableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="kleidung">
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="optgood" value="accomodation" onchange="disableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="unterkunft">
+               </label>
+               <label class="radio-inline"> 
+               <input type="radio" name="optgood" value="other" onchange="enableOther(this)"><img src="{% static 'tim_app/icon_placeholder.png' %}" alt="sonstiges">
+               </label>
+            </div>
+            <!-- Sonstiges -->	
+            <div class="form-group">
+               <label for="other">Sonstiges:</label>
+               <input type="text" class="form-control" id="other" placeholder="Was bieten Sie an?" disabled="disabled">
+            </div>
+            <!-- Wie viel? -->		
+            <div class="form-group">
+               <label for="unit">Wie viel brauchen Sie?</label>
+               <input type="text" class="form-control" id="unit" placeholder="Wie viel brauchen Sie?">
+            </div>
+            <!-- PLZ -->
+            <div class="form-group">
+               <label for="location">Wo?</label>
+               <input type="text" class="form-control" id="location"  placeholder="PLZ">
+            </div>
+            <!-- Dringlichkeit -->
+            <div class="form-group">
+               <label for="prio">Dringlichkeit</label>
+			   <br>
+               <label class="radio-inline">
+               <input type="radio" name="prio" value="12">12 Stunden
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="prio" value="24">24 Stunden
+               </label>
+               <label class="radio-inline">
+               <input type="radio" name="prio" value="36">36 Stunden
+               </label>
+            </div>
+            <button type="submit" class="btn btn-default">Abschicken</button>
+            <button type="submit" class="btn btn-default">Abschicken und neue Anfrage</button>
+         </form>
+      </div>
+      <script>
+         function enableOther(cb) {
+           if(cb.checked == true){
+         	document.getElementById("other").disabled = false;
+           }
+         }
+         
+         function disableOther(cb) {
+           if(cb.checked == true){
+           document.getElementById("other").disabled = true;
+           }
+         }
+      </script>
+	{% endblock %}
