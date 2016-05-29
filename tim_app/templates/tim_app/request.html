@@ -1,7 +1,33 @@
 {% extends "tim_app/base.html" %}
 
    {% block content %}
+      {% if error_message %}
+          <script type="text/javascript">
+              $(document).ready(function(){
+                  $("#ErrorModal").modal('show');
+              });
+          </script>
+      {% endif %}
 
+      <div id="ErrorModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Error</h4>
+            </div>
+            <div class="modal-body">
+              <p>{{error_message}}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
       {% load staticfiles %} 
       <div class="container">
          <h3>Ich suche...</h3>
@@ -31,17 +57,17 @@
             <!-- Sonstiges -->	
             <div class="form-group">
                <label for="other">Sonstiges:</label>
-               <input type="text" class="form-control" id="other" placeholder="Was bieten Sie an?" disabled="disabled">
+               <input type="text" class="form-control" name="other" id="other" placeholder="Was bieten Sie an?" disabled="disabled">
             </div>
             <!-- Wie viel? -->		
             <div class="form-group">
                <label for="unit">Wie viel brauchen Sie?</label>
-               <input type="text" class="form-control" id="unit" placeholder="Wie viel brauchen Sie?">
+               <input type="text" class="form-control" name="unit" id="unit" placeholder="Wie viel brauchen Sie?">
             </div>
             <!-- PLZ -->
             <div class="form-group">
                <label for="location">Wo?</label>
-               <input type="text" class="form-control" id="location"  placeholder="PLZ">
+               <input type="text" class="form-control" name="location" id="location"  placeholder="PLZ">
             </div>
             <!-- Dringlichkeit -->
             <div class="form-group">
