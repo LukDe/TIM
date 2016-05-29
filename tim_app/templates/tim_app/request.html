@@ -36,32 +36,32 @@
         </label>
       </div>
       <!-- Sonstiges -->	
-      <div class="form-group">
+      <div class="form-group" id="otherField" style="display: none;">
         <label for="other">Sonstiges:</label>
         <input type="text" class="form-control" name="other" id="other" placeholder="Was bieten Sie an?" disabled="disabled">
       </div>
       <!-- Wie viel? -->		
       <div class="form-group">
         <label for="unit">Wie viel brauchen Sie?</label>
-        <input type="text" class="form-control" name="unit" id="unit" placeholder="Wie viel brauchen Sie?">
+        <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel brauchen Sie?">
       </div>
       <!-- PLZ -->
       <div class="form-group">
         <label for="location">Wo?</label>
-        <input type="text" class="form-control" name="location" id="location"  placeholder="PLZ">
+        <input type="integer" class="form-control" name="location" id="location"  placeholder="PLZ">
       </div>
       <!-- Dringlichkeit -->
       <div class="form-group">
         <label for="prio">Dringlichkeit</label>
         <br>
         <label class="radio-inline">
-          <input type="radio" name="prio" value="12">12 Stunden
+          <input type="radio" name="prio" value="1">1 Tag
         </label>
         <label class="radio-inline">
-          <input type="radio" name="prio" value="24">24 Stunden
+          <input type="radio" name="prio" value="2">2 Tage
         </label>
         <label class="radio-inline">
-          <input type="radio" name="prio" value="36">36 Stunden
+          <input type="radio" name="prio" value="3">3 Tage
         </label>
       </div>
       <button type="submit" class="btn btn-default">Abschicken</button>
@@ -71,13 +71,13 @@
   <script>
     function enableOther(cb) {
       if(cb.checked === true) {
-        document.getElementById("other").disabled = false;
+        document.getElementById("otherField").style.display = "block";
       }
     }
 
     function disableOther(cb) {
       if(cb.checked === true) {
-        document.getElementById("other").disabled = true;
+        document.getElementById("otherField").style.display = "none";
       }
     }
   </script>
