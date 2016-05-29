@@ -6,6 +6,9 @@
 
     <title>TIM</title>
 
+    <!-- JS and jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -53,7 +56,32 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    
+    <!-- Error Modal -->
+    {% if error_message %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#ErrorModal").modal('show');
+            });
+        </script>
+    {% endif %}
 
+    <div id="ErrorModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Error</h4>
+          </div>
+          <div class="modal-body">
+            <p>{{error_message}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <main class="page-row page-row-expanded">    <!-- Main content is located here. -->
         <div class="container top-buffer">
             {% block content %}
