@@ -1,46 +1,48 @@
 {% extends "tim_app/base.html" %}
 
-   {% block content %}
-      {% load staticfiles %} 
-  
-      <div class="container">
-         <h3>Ich biete...</h3>
-         <form action="{% url 'tim_app:offer' %}" role="form" method="post">
-            {% csrf_token %}
-            <!-- Icons -->
-            <div class="form-group">
-               <label class="radio-inline">
-               <input type="radio" name="optgood" value="water"><img src="{% static 'tim_app/img/water.png' %}" alt="wasser">
-               </label>
-               <label class="radio-inline">
-               <input type="radio" name="optgood" value="food"><img src="{% static 'tim_app/img/food.png' %}" alt="nahrung">
-               </label>
-               <label class="radio-inline">
-               <input type="radio" name="optgood" value="woundcare"><img src="{% static 'tim_app/img/woundcare.png' %}" alt="wundversorgung">
-               </label>
-               <label class="radio-inline">
-               <input type="radio" name="optgood" value="clothes"><img src="{% static 'tim_app/img/clothes.png' %}" alt="kleidung">
-               </label>
-               <label class="radio-inline">
-               <input type="radio" name="optgood" value="accomodation"><img src="{% static 'tim_app/img/accomodation.png' %}" alt="unterkunft">
-               </label>
-            </div>
-            <!-- Wie viel? -->		
-            <div class="form-group">
-               <label for="unit">Wie viel?</label>
-               <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel bieten Sie an?">
-            </div>
-            <!-- PLZ -->
-            <div class="form-group">
-               <label for="location">Wo?</label>
-               <input type="integer" class="form-control" name="location" id="location"  placeholder="PLZ">
-            </div>
-            <!-- Umkreis -->
-            <div class="form-group">
-               <label for="area">Umkreis:</label>
-               <input type="integer" class="form-control" name="area" id="area" placeholder="In welchem Umkreis?">
-            </div>
-            <button type="submit" class="btn btn-default">Abschicken</button>
-         </form>
+{% block content %}
+  {% include "tim_app/error_modal.html" %}
+
+  {% load staticfiles %}
+
+  <div class="container">
+    <h3>Ich biete...</h3>
+    <form action="{% url 'tim_app:offer' %}" role="form" method="post">
+      {% csrf_token %}
+      <!-- Icons -->
+      <div class="form-group">
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="water"><img src="{% static 'tim_app/img/water.png' %}" alt="wasser">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="food"><img src="{% static 'tim_app/img/food.png' %}" alt="nahrung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="woundcare"><img src="{% static 'tim_app/img/woundcare.png' %}" alt="wundversorgung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="clothes"><img src="{% static 'tim_app/img/clothes.png' %}" alt="kleidung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="accomodation"><img src="{% static 'tim_app/img/accomodation.png' %}" alt="unterkunft">
+        </label>
       </div>
-	{% endblock %}
+      <!-- Wie viel? -->		
+      <div class="form-group">
+        <label for="unit">Wie viel?</label>
+        <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel bieten Sie an?">
+      </div>
+      <!-- PLZ -->
+      <div class="form-group">
+        <label for="location">Wo?</label>
+        <input type="integer" class="form-control" name="location" id="location"  placeholder="PLZ">
+      </div>
+      <!-- Umkreis -->
+      <div class="form-group">
+        <label for="area">Umkreis:</label>
+        <input type="integer" class="form-control" name="area" id="area" placeholder="In welchem Umkreis?">
+      </div>
+      <button type="submit" class="btn btn-default">Abschicken</button>
+    </form>
+  </div>
+{% endblock %}

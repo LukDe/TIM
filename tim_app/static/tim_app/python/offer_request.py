@@ -65,7 +65,7 @@ def add_request(request):
     try:
         int(new_location)
     except ValueError:
-        return render(request, 'tim_app/req.html', {
+        return render(request, 'tim_app/request.html', {
             'error_message': "Please enter a valid Zip Code.",
         })
     try:
