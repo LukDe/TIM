@@ -3,8 +3,6 @@ from django.utils import timezone
 from django.core.validators import MaxValueValidator
 
 
-# Create your models here.
-
 class User(models.Model):
 	username = models.CharField(max_length = 32, primary_key = True)
 	password = models.CharField(max_length = 32)
@@ -14,6 +12,7 @@ class User(models.Model):
 
 	def __str__(self):
 		return self.username
+
 
 class Request(models.Model):
 	id = models.AutoField(primary_key = True)
@@ -46,9 +45,10 @@ class Supply(models.Model):
 	def create(self):
 		self.creationDate = timezone.now()
 		self.save()
-	
+
 	def __unicode__(self):
 		return self.id
+
 
 class GoodCategory(models.Model):
 	categoryName = models.CharField(max_length = 64, primary_key = True)
@@ -56,6 +56,7 @@ class GoodCategory(models.Model):
 
 	def __str__(self):
 		return self.categoryName
+
 
 class Good(models.Model):
 	goodName = models.CharField(max_length = 64, primary_key = True)
@@ -65,6 +66,4 @@ class Good(models.Model):
 
 	def __str__(self):
 		return self.goodName
-
-
 

@@ -20,3 +20,8 @@ def request(request):
         return ofre.add_request(request)
     else:
         return render(request, 'tim_app/request.html')
+
+
+def list(request):
+	return render(request, 'tim_app/list.html')
+

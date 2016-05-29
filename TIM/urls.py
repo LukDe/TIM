@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # Initial app page.
     url(r'^tim/', include('tim_app.urls')),
+	# Show search/offer/userdata
+	url(r'^tim/list',HttpResponseRedirect('tim/list')),
 ]
