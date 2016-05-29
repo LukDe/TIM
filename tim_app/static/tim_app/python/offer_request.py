@@ -27,7 +27,7 @@ def add_offer(request):
     except ValueError:
         return render(request, 'tim_app/offer.html', {
             'error_message': "Please specify a valid range in which you will be able to deliver the goods.",
-        })   
+        })
 
 
     if new_goodtype not in allowed_goods :
@@ -45,7 +45,7 @@ def add_offer(request):
     if int(new_range) < 1:
         return render(request, 'tim_app/offer.html', {
             'error_message': "Please specify a valid range in which you will be able to deliver the goods.",
-        })   
+        })
     return HttpResponseRedirect(reverse('tim_app:login'))
 
 def add_request(request):
@@ -73,7 +73,7 @@ def add_request(request):
     except ValueError:
         return render(request, 'tim_app/request.html', {
             'error_message': "Please select a priority.",
-        })   
+        })
 
 
     if new_goodtype not in allowed_goods:
@@ -95,6 +95,6 @@ def add_request(request):
     if (int(new_prio) != 12) and (int(new_prio) != 24) and (int(new_prio) != 36):
         return render(request, 'tim_app/request.html', {
             'error_message': "Please select a priority.",
-        })   
+        })
 
     return HttpResponseRedirect(reverse('tim_app:login'))
