@@ -17,7 +17,6 @@ class User(models.Model):
 class Request(models.Model):
 	id = models.AutoField(primary_key = True)
 	username = models.ForeignKey('User')
-	categoryName = models.ForeignKey('GoodCategory')
 	goodName = models.ForeignKey('Good')
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
@@ -37,7 +36,6 @@ class Request(models.Model):
 class Supply(models.Model):
 	id = models.AutoField(primary_key = True)
 	username = models.ForeignKey('User')
-	categoryName = models.ForeignKey('GoodCategory')
 	goodName = models.ForeignKey('Good')
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
@@ -54,18 +52,8 @@ class Supply(models.Model):
 	def __str__(self):
 		return (str)(self.id) + ':' + (str)(self.username) + ',' + (str)(self.goodName)
 
-
-class GoodCategory(models.Model):
-	categoryName = models.CharField(max_length = 64, primary_key = True)
-	categoryIcon = models.ImageField()
-
-	def __str__(self):
-		return self.categoryName
-
-
 class Good(models.Model):
 	goodName = models.CharField(max_length = 64, primary_key = True)
-	categoryName = models.ForeignKey(GoodCategory)
 	unit = models.CharField(max_length = 16)
 	description = models.CharField(max_length = 256)
 

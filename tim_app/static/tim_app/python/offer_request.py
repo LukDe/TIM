@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from dateutil.parser import parse
+from ....models import User, Good, Request, Supply
 
 def add_offer(request):
     new_goodtype = request.POST.get('optgood', None)
@@ -14,37 +15,37 @@ def add_offer(request):
         int(new_quantity)
     except ValueError:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please specify a valid quantity.",
+            'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     try:
         int(new_location)
     except ValueError:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please enter a valid Zip Code.",
+            'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
     try:
         int(new_range)
     except ValueError:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please specify a valid range in which you will be able to deliver the goods.",
+            'error_message': "Bitte geben sie eine gültige Reichweite an.",
         })
 
 
     if new_goodtype not in allowed_goods :
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please select a goods category.",
+            'error_message': "Bitte wählen sie eine Güterkategorie aus.",
         })
     if int(new_quantity) < 1:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please specify a valid quantity.",
+            'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     if len(str(new_location)) != 5:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please enter a valid Zip Code.",
+            'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
     if int(new_range) < 1:
         return render(request, 'tim_app/offer.html', {
-            'error_message': "Please specify a valid range in which you will be able to deliver the goods.",
+            'error_message': "Bitte geben sie eine gültige Reichweite an.",
         })
     return HttpResponseRedirect(reverse('tim_app:login'))
 
@@ -60,41 +61,51 @@ def add_request(request):
         int(new_quantity)
     except ValueError:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please specify a valid quantity.",
+            'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     try:
         int(new_location)
     except ValueError:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please enter a valid Zip Code.",
+            'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
     try:
         int(new_prio)
     except ValueError:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please select a priority.",
+            'error_message': "Bitte wählen sie eine Priorität aus.",
         })
 
 
     if new_goodtype not in allowed_goods:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please select a goods category.",
+            'error_message': "Bitte wählen sie eine Güterkategorie aus.",
         })
-    if (new_goodtype == 'other' and new_desc == None) or (new_goodtype != 'other' and new_desc != None):
+    print(new_desc)
+    print(new_goodtype)
+    if (new_goodtype == 'other' and (new_desc == None or len(new_desc) == 0)) or (new_goodtype != 'other' and new_desc != None and len(new_desc) != 0):
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please enter a description of what you are requesting.",
+            'error_message': "Bitte geben sie eine Beschreibung ihrer Anfrage ein",
     })
     if int(new_quantity) < 1:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please specify a valid quantity.",
+            'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     if len(str(new_location)) != 5:
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please enter a valid Zip Code.",
+            'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
-    if (int(new_prio) != 12) and (int(new_prio) != 24) and (int(new_prio) != 36):
+    if (int(new_prio) != 1) and (int(new_prio) != 2) and (int(new_prio) != 3):
         return render(request, 'tim_app/request.html', {
-            'error_message': "Please select a priority.",
+            'error_message': "Bitte wählen sie eine Priorität aus.",
         })
-
+    category = Good.objects.get(pk=new_goodtype)
+    user = User.objects.get(pk='Bob')
+    if new_goodtype == 'other':
+        misc = new_desc
+    else:
+        misc = 'NULL'
+        
+    new_request = Request(username = user, goodName = category, misc = misc, quantity = new_quantity, priority = new_prio, postalCode = new_location)
+    Request.create(new_request)
     return HttpResponseRedirect(reverse('tim_app:login'))
