@@ -30,8 +30,8 @@ class Request(models.Model):
 		self.creationDate = timezone.now()
 		self.save()
 
-	def __unicode__(self):
-		return self.id
+	def __str__(self):
+		return (str)(self.id) + ':' + (str)(self.username) + ',' + (str)(self.goodName)
 
 
 class Supply(models.Model):
@@ -47,8 +47,8 @@ class Supply(models.Model):
 		self.creationDate = timezone.now()
 		self.save()
 	
-	def __unicode__(self):
-		return self.id
+	def __str__(self):
+		return (str)(self.id) + ':' + (str)(self.username) + ',' + (str)(self.goodName)
 
 class GoodCategory(models.Model):
 	categoryName = models.CharField(max_length = 64, primary_key = True)
