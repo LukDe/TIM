@@ -23,14 +23,15 @@ class Request(models.Model):
 	quantity = models.PositiveSmallIntegerField()
 	priority = models.PositiveSmallIntegerField(validators=[MaxValueValidator(3)])
 	catastrophy = models.CharField(max_length = 128)
+	postalCode = models.CharField(max_length = 32)
 	creationDate = models.DateTimeField(default = timezone.now)
 
 	def create(self):
 		self.creationDate = timezone.now()
 		self.save()
 
-	def __unicode__(self):
-		return self.id
+	def __str__(self):
+		return (str)(self.id) + ':' + (str)(self.username) + ',' + (str)(self.goodName)
 
 
 class Supply(models.Model):
@@ -40,6 +41,7 @@ class Supply(models.Model):
 	goodName = models.ForeignKey('Good')
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
+	postalCode = models.CharField(max_length = 32)
 	creationDate = models.DateTimeField(default = timezone.now)
 
 	def create(self):
@@ -48,6 +50,9 @@ class Supply(models.Model):
 
 	def __unicode__(self):
 		return self.id
+
+	def __str__(self):
+		return (str)(self.id) + ':' + (str)(self.username) + ',' + (str)(self.goodName)
 
 
 class GoodCategory(models.Model):
