@@ -10,8 +10,21 @@ body {
   margin-top: 30px;
 }
 
+.tim-list-container {
+  max-width: 900px;
+  max-height: 100%;
+
+  margin-top: 30px;
+}
+
 .tim-login-form {
   padding-top: 20px;
+}
+
+.tim-user-data {
+  padding-top: 20px;
+  padding-left:200px;
+  padding-right:200px;
 }
 
 .tim-login-logo {
