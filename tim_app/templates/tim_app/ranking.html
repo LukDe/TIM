@@ -1,136 +1,135 @@
 {% extends "tim_app/base.html" %}
 
 {% block content %}
+  {% load staticfiles %}
+  {% include "tim_app/navbar.html" with ranking_active='active' %}
 
-<div class="container" style="margin:40px"><!--margin-top:30px; margin-left:30px;-->
-    {% load staticfiles %}
-
+  <div class="container" style="margin:40px"><!--margin-top:30px; margin-left:30px;-->
 
     <div class="row">
-        <div class="col-sm-2">
-            <img alt="water" src="{% static 'tim_app/img/water.png' %}"/>
-        </div>
+      <div class="col-sm-2">
+        <img alt="water" src="{% static 'tim_app/img/water.png' %}"/>
+      </div>
 
-        <div class="col-sm-2">
-            <img alt="food" src="{% static 'tim_app/img/food.png' %}"/>
-        </div>
+      <div class="col-sm-2">
+        <img alt="food" src="{% static 'tim_app/img/food.png' %}"/>
+      </div>
 
-        <div class="col-sm-2">
-            <img  alt="clothes" src="{% static 'tim_app/img/clothes.png' %}"/>
-        </div>
+      <div class="col-sm-2">
+        <img  alt="clothes" src="{% static 'tim_app/img/clothes.png' %}"/>
+      </div>
 
-        <div class="col-sm-2">
-            <img  alt="woundcare" src="{% static 'tim_app/img/woundcare.png' %}"/>
-        </div>
+      <div class="col-sm-2">
+        <img  alt="woundcare" src="{% static 'tim_app/img/woundcare.png' %}"/>
+      </div>
 
-        <div class="col-sm-2">
-            <img  alt="accomodation" src="{% static 'tim_app/img/accomodation.png' %}"/>
-        </div>
+      <div class="col-sm-2">
+        <img  alt="accomodation" src="{% static 'tim_app/img/accomodation.png' %}"/>
+      </div>
 
-        <!--div class="col-sm-2">
-            <img  alt="other" src="{% static 'tim_app/img/other.png' %}"/>
-        </div-->
-    </div>
-</div>
+      <!--div class="col-sm-2">
+          <img  alt="other" src="{% static 'tim_app/img/other.png' %}"/>
+          </div-->
+      </div>
+  </div>
 
-
-
-<div class="span12">
+  <div class="span12">
     <h2>OTHER</h2>
     <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Gesucht</th>
-                <th>Menge</th>
-            </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Gesucht</th>
+          <th>Menge</th>
+        </tr>
+      </thead>
 
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Hamsterkäfig</td>
-                <td>1</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Generator</td>
-                <td>1</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Dünger</td>
-                <td>12 Tonnen</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>Informatiker</td>
-                <td>3</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>5</td>
-                <td>Feuerlöscher</td>
-                <td>50</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>6</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>8</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>9</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>10</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>11</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>12</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>13</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-            <tr>
-                <td>14</td>
-                <td>etwas</td>
-                <td>etwas</td>
-                <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-            </tr>
-  </tbody>
-</table>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Hamsterkäfig</td>
+          <td>1</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Generator</td>
+          <td>1</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Dünger</td>
+          <td>12 Tonnen</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Informatiker</td>
+          <td>3</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Feuerlöscher</td>
+          <td>50</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>etwas</td>
+          <td>etwas</td>
+          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 {% endblock %}

@@ -1,9 +1,11 @@
 {% extends "tim_app/base.html" %}
 
 {% block content %}
-  {% include "tim_app/error_modal.html" %}
-
   {% load staticfiles %} 
+
+  {% include "tim_app/error_modal.html" %}
+  {% include "tim_app/navbar.html" with request_active='active' %}
+
   <div class="container">
     <h3>Ich suche...</h3>
     <form action="{% url 'tim_app:request' %}" role="form" method="post">
