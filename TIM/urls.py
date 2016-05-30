@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     # Redirect user to /tim if no path is specified.
-    url(r'^$', lambda r: HttpResponseRedirect('tim/login')),
+    url(r'^$', lambda r: HttpResponseRedirect('tim/ranking')),
     # Admin page.
     url(r'^admin/', admin.site.urls),
     # Initial app page.

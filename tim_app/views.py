@@ -7,8 +7,10 @@ from .static.tim_app.python import offer_request as ofre
 def login(request):
     return render(request, 'tim_app/login.html')
 
+
 def ranking(request):
     return render(request, 'tim_app/ranking.html')
+
 
 def offer(request):
     if request.method == 'POST':
