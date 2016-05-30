@@ -1,8 +1,7 @@
 {% extends "tim_app/base.html" %}
 
 {% block content %}
-{% include "tim_app/navbar.html" %}
-
+{% include "tim_app/navbar.html" with ranking_active='active' %}
 <div class="center-block tim-login-container">
   {% load staticfiles %}
   <img class="tim-login-logo center-block" alt="tim-logo" src="{% static 'tim_app/tim_logo_transparent.png' %}"/>

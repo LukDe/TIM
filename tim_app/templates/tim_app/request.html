@@ -40,12 +40,35 @@
       <!-- Sonstiges -->	
       <div class="form-group" id="otherField" style="display: none;">
         <label for="other">Sonstiges:</label>
-        <input type="text" class="form-control" name="other" id="other" placeholder="Was bieten Sie an?">
+        <input type="text" class="form-control" name="other" id="other" placeholder="Was und wie viel brauchen Sie?">
       </div>
       <!-- Wie viel? -->		
-      <div class="form-group">
-        <label for="unit">Wie viel brauchen Sie?</label>
+      <div class="form-group" id="unitField" style="display: block;">
+        <label for="unit" id="unitLabel">Wie viel brauchen Sie?</label>
         <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel brauchen Sie?">
+		<div id="clothesUnit" style="display: none;">
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="1">Säugling
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="2">Unter 5 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="3">5-10 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="4">10-14 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="5">Erwachsene (Mann)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="6">Erwachsene (Frau)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="7">Übergröße
+			</label>
+		</div>
       </div>
       <!-- PLZ -->
       <div class="form-group">
@@ -71,15 +94,59 @@
     </form>
   </div>
   <script>
+    /*show other field, hide unit or clothes field*/
     function enableOther(cb) {
       if(cb.checked === true) {
-        document.getElementById("otherField").style.display = "block";
+		showElement("otherField");
+		hideElement("unitField");
+		hideElement("clothesUnit");
       }
     }
 
+	/* updates unit field placeholder and its label*/
+	function updateValues(label, placeholder) {
+		document.getElementById("unitLabel").innerHTML = label;
+		document.getElementById("unit").placeholder = placeholder;
+	}
+	
+	/* hide an element with given id */
+	function hideElement(id) {
+		document.getElementById(id).style.display = "none";
+	}
+	
+	/* show an element with given id */
+	function showElement(id) {
+		document.getElementById(id).style.display = "block";
+	}
+	
+	/* show unit field, hide other field */
     function disableOther(cb) {
       if(cb.checked === true) {
-        document.getElementById("otherField").style.display = "none";
+		hideElement("otherField");
+		showElement("unitField");
+		showElement("unit");
+		hideElement("clothesUnit");
+		switch(cb.value) {
+			case "water":
+				updateValues("Wie viel Liter Wasser brauchen Sie?", "Liter");
+				break;
+			case "food":
+				updateValues("Wie viele Mahlzeiten brauchen Sie?", "Mahlzeiten");
+				break;
+			case "woundcare":
+				updateValues("Wie viele Verbandskästen brauchen Sie?", "Verbandskästen");
+				break;
+			case "clothes":
+				updateValues("Für welche Altersgruppe suchen Sie Kleidungen?", "");
+				showElement("clothesUnit");
+				hideElement("unit");
+				break;
+			case "accomodation":
+				updateValues("Wie viele Personen brauchen Unterkunft?", "Personen");
+				break;
+			default:
+				
+		}
       }
     }
   </script>
