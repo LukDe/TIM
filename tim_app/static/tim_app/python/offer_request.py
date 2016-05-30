@@ -46,6 +46,13 @@ def add_offer(request):
         return render(request, 'tim_app/offer.html', {
             'error_message': "Bitte geben sie eine gültige Reichweite an.",
         })
+
+    category = Good.objects.get(pk=new_goodtype)
+    user = User.objects.get(pk='Bob')
+        
+    new_request = Supply(username = user, goodName = category, quantity = new_quantity, postalCode = new_location)
+    Request.create(new_request)
+
     return HttpResponseRedirect(reverse('tim_app:login'))
 
 def add_request(request):
