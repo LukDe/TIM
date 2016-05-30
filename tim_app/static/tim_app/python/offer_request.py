@@ -1,7 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
-from dateutil.parser import parse
 from ....models import User, Good, Request, Supply
 
 def add_offer(request):
