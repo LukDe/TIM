@@ -12,19 +12,19 @@ def add_offer(request):
     allowed_goods = {'water', 'food', 'woundcare' , 'clothes' , 'accomodation'}
     try:
         int(new_quantity)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/offer.html', {
             'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     try:
         int(new_location)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/offer.html', {
             'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
     try:
         int(new_range)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/offer.html', {
             'error_message': "Bitte geben sie eine gültige Reichweite an.",
         })
@@ -53,7 +53,7 @@ def add_offer(request):
     new_request = Supply(username = user, goodName = category, quantity = new_quantity, postalCode = new_location)
     Request.create(new_request)
 
-    return HttpResponseRedirect(reverse('tim_app:login'))
+    return HttpResponseRedirect(reverse('tim_app:ranking'))
 
 def add_request(request):
     new_goodtype = request.POST.get('optgood', None)
@@ -65,19 +65,19 @@ def add_request(request):
     allowed_goods = {'water', 'food', 'woundcare' , 'clothes' , 'accomodation', 'other'}
     try:
         int(new_quantity)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/request.html', {
             'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
     try:
         int(new_location)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/request.html', {
             'error_message': "Bitte geben sie eine gültige Postleitzahl an.",
         })
     try:
         int(new_prio)
-    except ValueError:
+    except (ValueError, TypeError):
         return render(request, 'tim_app/request.html', {
             'error_message': "Bitte wählen sie eine Priorität aus.",
         })
@@ -114,4 +114,4 @@ def add_request(request):
         
     new_request = Request(username = user, goodName = category, misc = misc, quantity = new_quantity, priority = new_prio, postalCode = new_location)
     Request.create(new_request)
-    return HttpResponseRedirect(reverse('tim_app:login'))
+    return HttpResponseRedirect(reverse('tim_app:ranking'))
