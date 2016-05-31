@@ -2,6 +2,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from .static.tim_app.python import offer_request as ofre
+from .static.tim_app.python import ranking as rank
+from .models import *
 
 
 def login(request):
@@ -9,7 +11,8 @@ def login(request):
 
 
 def ranking(request):
-    return render(request, 'tim_app/ranking.html')
+    context = rank.get_context()
+    return render(request, 'tim_app/ranking.html', context)
 
 
 def offer(request):

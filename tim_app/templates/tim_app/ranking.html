@@ -30,106 +30,55 @@
       <!--div class="col-sm-2">
           <img  alt="other" src="{% static 'tim_app/img/other.png' %}"/>
           </div-->
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <h1><label class="col-sm-2">{{total_water}}</label></h1>
       </div>
+      <div class="col-sm-2">
+        <h1><label class="col-sm-2">{{total_food}}</label></h1>
+      </div>
+      <div class="col-sm-2">
+        <h1><label class="col-sm-2">{{total_woundcare}}</label></h1>
+      </div>
+      <div class="col-sm-2">
+        <h1><label class="col-sm-2">{{total_clothes}}</label></h1>
+      </div>
+      <div class="col-sm-2">
+        <h1><label class="col-sm-2">{{total_accomodation}}</label></h1>
+      </div>
+
+    </div>
   </div>
 
-  <div class="span12">
-    <h2>OTHER</h2>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Gesucht</th>
-          <th>Menge</th>
-        </tr>
-      </thead>
+<h2>Andere Anfragen:</h2>
+{% if request_list %}
 
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Hamsterkäfig</td>
-          <td>1</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Generator</td>
-          <td>1</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Dünger</td>
-          <td>12 Tonnen</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>Informatiker</td>
-          <td>3</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>Feuerlöscher</td>
-          <td>50</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>8</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>9</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>10</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>11</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>12</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>13</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-        <tr>
-          <td>14</td>
-          <td>etwas</td>
-          <td>etwas</td>
-          <td><button type="button" class="btn btn-info btn-xs pull-right">reagieren</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+
+<ul class="center-block list-group todo-list">
+  {% for request in request_list %}
+
+  <li class="list-group-item todo-list-item">
+    <div class="row">
+      <h4 class="col-sm-9 col-xs-8">
+        {{request.misc}}
+      </h4>
+      <div class="col-sm-3 col-xs-4">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-info btn-l pull-right">reagieren</button>
+        </div>
+      </div>
+    </div>
+  </li>
+
+  {% endfor %}
+</ul>
+
+{% else %}
+
+<div class="alert alert-info" role="alert">
+  There are currently no Todos
+</div>
+
+{% endif %}
 {% endblock %}
