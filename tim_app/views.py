@@ -29,3 +29,7 @@ def request(request):
 def list(request):
 	return render(request, 'tim_app/list.html')
 
+
+def impressum(request):
+    return render(request, 'tim_app/impressum.html')
+

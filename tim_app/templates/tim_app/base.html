@@ -27,8 +27,7 @@
     <!-- Main app CSS -->
     {% load staticfiles %}
     <link href="{% static 'tim_app/css/styles.css' %}" rel="stylesheet"/>
-    <!-- Custom styles for this template -->
-    <link href="sticky-footer-navbar.css" rel="stylesheet">
+
   </head>
   <body>
 
@@ -41,7 +40,7 @@
 
     <footer class="page-row">
       <div class="container">
-        <p class="text-muted">Impressum</p>
+        <p class="text-muted"><a href="{% url 'tim_app:impressum'%}">Impressum</a></p>
       </div>
     </footer>
 
