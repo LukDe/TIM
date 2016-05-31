@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" rel="home" href="#" title="Tim">
+          <img style="max-width:100px;" src="{% static 'tim_app/tim_logo_transparent.png' %}">
+      </a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="{% if ranking_active %}active{% endif %}"><a href="{% url 'tim_app:ranking'%}">Ranking</a></li>
+        <li class="{% if request_active %}active{% endif %}"><a href="{% url 'tim_app:request'%}">Suchen</a></li>
+        <li class="{% if offer_active %}active{% endif %}"><a href="{% url 'tim_app:offer'%}">Bieten</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+             aria-haspopup="true" aria-expanded="false">
+            User <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'tim_app:list'%}">Meine Einträge</a></li>
+            <li><a href="{% url 'tim_app:user'%}">Einstellungen</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>

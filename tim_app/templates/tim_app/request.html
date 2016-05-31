@@ -1,0 +1,153 @@
+{% extends "tim_app/base.html" %}
+
+{% block content %}
+  {% load staticfiles %} 
+
+  {% include "tim_app/error_modal.html" %}
+  {% include "tim_app/navbar.html" with request_active='active' %}
+
+  <div class="container">
+    <h3>Ich suche...</h3>
+    <form action="{% url 'tim_app:request' %}" role="form" method="post">
+      {% csrf_token %}
+      <!-- Icons -->
+      <div class="form-group">
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="water" onchange="disableOther(this)">
+          <img src="{% static 'tim_app/img/water.png' %}" alt="wasser">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="food" onchange="disableOther(this)">
+          <img src="{% static 'tim_app/img/food.png' %}" alt="nahrung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="woundcare" onchange="disableOther(this)">
+          <img src="{% static 'tim_app/img/woundcare.png' %}" alt="wundversorgung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="clothes" onchange="disableOther(this)">
+          <img src="{% static 'tim_app/img/clothes.png' %}" alt="kleidung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="accomodation" onchange="disableOther(this)">
+          <img src="{% static 'tim_app/img/accomodation.png' %}" alt="unterkunft">
+        </label>
+        <label class="radio-inline"> 
+          <input type="radio" name="optgood" value="other" onchange="enableOther(this)">
+          <img src="{% static 'tim_app/img/other.png' %}" alt="sonstiges">
+        </label>
+      </div>
+      <!-- Sonstiges -->	
+      <div class="form-group" id="otherField" style="display: none;">
+        <label for="other">Sonstiges:</label>
+        <input type="text" class="form-control" name="other" id="other" placeholder="Was und wie viel brauchen Sie?">
+      </div>
+      <!-- Wie viel? -->		
+      <div class="form-group" id="unitField" style="display: block;">
+        <label for="unit" id="unitLabel">Wie viel brauchen Sie?</label>
+        <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel brauchen Sie?">
+		<div id="clothesUnit" style="display: none;">
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="1">Säugling
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="2">Unter 5 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="3">5-10 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="4">10-14 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="5">Erwachsene (Mann)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="6">Erwachsene (Frau)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="7">Übergröße
+			</label>
+		</div>
+      </div>
+      <!-- PLZ -->
+      <div class="form-group">
+        <label for="location">Wo?</label>
+        <input type="integer" class="form-control" name="location" id="location"  placeholder="PLZ">
+      </div>
+      <!-- Dringlichkeit -->
+      <div class="form-group">
+        <label for="prio">Dringlichkeit</label>
+        <br>
+        <label class="radio-inline">
+          <input type="radio" name="prio" value="1">1 Tag
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="prio" value="2">2 Tage
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="prio" value="3">3 Tage
+        </label>
+      </div>
+      <button type="submit" class="btn btn-default">Abschicken</button>
+      <button type="submit" class="btn btn-default">Abschicken und neue Anfrage</button>
+    </form>
+  </div>
+  <script>
+    /*show other field, hide unit or clothes field*/
+    function enableOther(cb) {
+      if(cb.checked === true) {
+		showElement("otherField");
+		hideElement("unitField");
+		hideElement("clothesUnit");
+      }
+    }
+
+	/* updates unit field placeholder and its label*/
+	function updateValues(label, placeholder) {
+		document.getElementById("unitLabel").innerHTML = label;
+		document.getElementById("unit").placeholder = placeholder;
+	}
+	
+	/* hide an element with given id */
+	function hideElement(id) {
+		document.getElementById(id).style.display = "none";
+	}
+	
+	/* show an element with given id */
+	function showElement(id) {
+		document.getElementById(id).style.display = "block";
+	}
+	
+	/* show unit field, hide other field */
+    function disableOther(cb) {
+      if(cb.checked === true) {
+		hideElement("otherField");
+		showElement("unitField");
+		showElement("unit");
+		hideElement("clothesUnit");
+		switch(cb.value) {
+			case "water":
+				updateValues("Wie viel Liter Wasser brauchen Sie?", "Liter");
+				break;
+			case "food":
+				updateValues("Wie viele Mahlzeiten brauchen Sie?", "Mahlzeiten");
+				break;
+			case "woundcare":
+				updateValues("Wie viele Verbandskästen brauchen Sie?", "Verbandskästen");
+				break;
+			case "clothes":
+				updateValues("Für welche Altersgruppe suchen Sie Kleidungen?", "");
+				showElement("clothesUnit");
+				hideElement("unit");
+				break;
+			case "accomodation":
+				updateValues("Wie viele Personen brauchen Unterkunft?", "Personen");
+				break;
+			default:
+				
+		}
+      }
+    }
+  </script>
+{% endblock %}

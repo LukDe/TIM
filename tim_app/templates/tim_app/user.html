@@ -1,0 +1,30 @@
+{% extends "tim_app/base.html" %}
+
+{% block content %}
+
+{% include "tim_app/navbar.html" %}
+
+<div class="center-block tim-list-container" style="text-align:center">
+	{% load staticfiles %}
+	<div id="user-data" class="tim-user-data">
+		<div class="form-group">
+			<div class="input-group">
+				<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+				<div class="form-control">Max Mustermann</div>
+			</div>
+			<div class="input-group">
+				<div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
+				<div class="form-control">0177 12345678</div>
+			</div>
+			<div class="input-group">
+				<div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
+				<div class="form-control">11037</div>
+			</div>
+		</div>
+		<button class="btn btn-primary pull-right">Bearbeiten</button>
+	</div>
+
+	
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "tim_app/base.html" %}
+
+{% block content %}
+  {% include "tim_app/error_modal.html" %}
+  {% include "tim_app/navbar.html" with offer_active='active' %}
+
+  {% load staticfiles %}
+
+  <div class="container">
+    <h3>Ich biete...</h3>
+    <form action="{% url 'tim_app:offer' %}" role="form" method="post">
+      {% csrf_token %}
+      <!-- Icons -->
+      <div class="form-group">
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="water" onchange="updateUnit(this)"><img src="{% static 'tim_app/img/water.png' %}" alt="wasser">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="food" onchange="updateUnit(this)"><img src="{% static 'tim_app/img/food.png' %}" alt="nahrung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="woundcare" onchange="updateUnit(this)"><img src="{% static 'tim_app/img/woundcare.png' %}" alt="wundversorgung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="clothes" onchange="updateUnit(this)"><img src="{% static 'tim_app/img/clothes.png' %}" alt="kleidung">
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="optgood" value="accomodation" onchange="updateUnit(this)"><img src="{% static 'tim_app/img/accomodation.png' %}" alt="unterkunft">
+        </label>
+      </div>
+      <!-- Wie viel? -->		
+      <div class="form-group">
+        <label for="unit" id="unitLabel">Wie viel?</label>
+        <input type="integer" class="form-control" name="unit" id="unit" placeholder="Wie viel bieten Sie an?">
+		<div id="clothesUnit" style="display: none;">
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="1">Säugling
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="2">Unter 5 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="3">5-10 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="4">10-14 Jahre alt
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="5">Erwachsene (Mann)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="6">Erwachsene (Frau)
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="unit" value="7">Übergröße
+			</label>
+		</div>
+      </div>
+      <!-- PLZ -->
+      <div class="form-group">
+        <label for="location">Wo?</label>
+        <input type="integer" class="form-control" name="location" id="location"  placeholder="PLZ">
+      </div>
+      <!-- Umkreis -->
+      <div class="form-group">
+        <label for="area">Umkreis:</label>
+        <input type="integer" class="form-control" name="area" id="area" placeholder="In welchem Umkreis?">
+      </div>
+      <button type="submit" class="btn btn-default">Abschicken</button>
+    </form>
+  </div>
+  <script>
+	/* updates unit field placeholder and its label*/
+	function updateValues(label, placeholder) {
+		document.getElementById("unitLabel").innerHTML = label;
+		document.getElementById("unit").placeholder = placeholder;
+	}
+	/* hide an element with given id */
+	function hideElement(id) {
+		document.getElementById(id).style.display = "none";
+	}
+	
+	/* show an element with given id */
+	function showElement(id) {
+		document.getElementById(id).style.display = "block";
+	}
+	/* update units if icon checked */
+	function updateUnit(cb) {
+      if(cb.checked === true) {
+		showElement("unit");
+		hideElement("clothesUnit");
+		switch(cb.value) {
+			case "water":
+				updateValues("Wie viel Liter Wasser bieten Sie an?", "Liter");
+				break;
+			case "food":
+				updateValues("Wie viele Mahlzeiten bieten Sie an?", "Mahlzeiten");
+				break;
+			case "woundcare":
+				updateValues("Wie viele Verbandskästen bieten Sie an?", "Verbandskästen");
+				break;
+			case "clothes":
+				updateValues("Für welche Altersgruppe bieten Sie Kleidungen an?", "");
+				showElement("clothesUnit");
+				hideElement("unit");
+				break;
+			case "accomodation":
+				updateValues("Für wie viele Personen bieten Sie Unterkunft an?", "Personen");
+				break;
+			default:
+				
+		}
+      }
+    }
+  </script>
+{% endblock %}

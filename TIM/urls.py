@@ -17,15 +17,20 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 
+
 from tim_app import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     # Redirect user to /tim if no path is specified.
-    url(r'^$', lambda r: HttpResponseRedirect('tim/login')),
+    url(r'^$', lambda r: HttpResponseRedirect('tim/ranking')),
     # Admin page.
     url(r'^admin/', admin.site.urls),
     # Initial app page.
     url(r'^tim/', include('tim_app.urls')),
-	# Show search/offer/userdata
-	url(r'^tim/list',HttpResponseRedirect('tim/list')),
 ]
+
+# Icon folder
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

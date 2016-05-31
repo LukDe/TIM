@@ -2,14 +2,13 @@
 
 {% block content %}
 
+{% include "tim_app/navbar.html" %}
 
 <div class="center-block tim-list-container" style="text-align:center">
 	{% load staticfiles %}
-	<img class="tim-login-logo center-block" alt="tim-logo" src="{% static 'tim_app/tim_logo_transparent.png' %}"/>
 	<ul class="nav nav-tabs">
 		<li id="tab-search" role="presentation"><a href="#">Suche</a></li>
 		<li id="tab-offer" role="presentation"><a href="#">Biete</a></li>
-		<li id="tab-user-data" role="presentation"><a href="#">Benutzerdaten</a></li>
 	</ul>
 
 	<table id="table-search" class="table table-striped table-hover">
@@ -65,24 +64,6 @@
 			</tr>
 		</tbody>
 	</table>
-	
-	<div id="user-data" class="tim-user-data">
-		<div class="form-group">
-			<div class="input-group">
-				<div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-				<div class="form-control">Max Mustermann</div>
-			</div>
-			<div class="input-group">
-				<div class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></div>
-				<div class="form-control">0177 12345678</div>
-			</div>
-			<div class="input-group">
-				<div class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></div>
-				<div class="form-control">11037</div>
-			</div>
-		</div>
-		<button class="btn btn-primary pull-right">Bearbeiten</button>
-	</div>
 </div>
 
 {% endblock %}
