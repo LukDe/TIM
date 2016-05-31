@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^offer$', views.offer, name='offer'),
 	url(r'^list$', views.list, name='list'),
     url(r'^impressum$', views.impressum, name='impressum'),
+    url(r'^user$', views.user, name='user'),
 ]

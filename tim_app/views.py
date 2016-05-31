@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from .static.tim_app.python import offer_request as ofre
+
 from .static.tim_app.python import ranking as rank
 from .models import *
 
@@ -32,7 +33,8 @@ def request(request):
 def list(request):
 	return render(request, 'tim_app/list.html')
 
-
 def impressum(request):
     return render(request, 'tim_app/impressum.html')
 
+def user(request):
+	return render(request, 'tim_app/user.html')
