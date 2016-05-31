@@ -5,7 +5,14 @@
   {% include "tim_app/navbar.html" with ranking_active='active' %}
 
   <div class="container" style="margin:40px"><!--margin-top:30px; margin-left:30px;-->
-
+    <div class="row center-block bottom-buffer">
+      <div class="col-sm-8">
+        <input type="text" class="form-control" name="location" id="location" placeholder="Ihr Standort">
+      </div>
+      <div class="col-sm-4">
+        <input type="integer" class="form-control" name="area" id="area" placeholder="Umkreis">
+      </div>
+    </div>
     <div class="row">
       <div class="col-sm-2">
         <img alt="water" src="{% static 'tim_app/img/water.png' %}"/>
@@ -33,52 +40,49 @@
     </div>
     <div class="row">
       <div class="col-sm-2">
-        <h1><label class="col-sm-2">{{total_water}}</label></h1>
+        <h1><label>{{total_water}}</label></h1>
       </div>
       <div class="col-sm-2">
-        <h1><label class="col-sm-2">{{total_food}}</label></h1>
+        <h1><label>{{total_food}}</label></h1>
       </div>
       <div class="col-sm-2">
-        <h1><label class="col-sm-2">{{total_woundcare}}</label></h1>
+        <h1><label>{{total_woundcare}}</label></h1>
       </div>
       <div class="col-sm-2">
-        <h1><label class="col-sm-2">{{total_clothes}}</label></h1>
+        <h1><label>{{total_clothes}}</label></h1>
       </div>
       <div class="col-sm-2">
-        <h1><label class="col-sm-2">{{total_accomodation}}</label></h1>
+        <h1><label>{{total_accomodation}}</label></h1>
       </div>
 
+    </div>
+    <h2>Andere Anfragen:</h2>
+    {% if request_list %}
+    <ul class="center-block list-group ">
+      {% for request in request_list %}
+
+      <li class="list-group-item">
+        <div class="row">
+          <h4 class="col-sm-9 col-xs-8">
+            {{request.misc}}
+          </h4>
+          <div class="col-sm-3 col-xs-4">
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-info btn-l pull-right">reagieren</button>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {% endfor %}
+    </ul>
+
+    {% else %}
+
+    <div class="alert alert-info" role="alert">
+      Es gibt zur Zeit keine anderen Anfragen
     </div>
   </div>
-
-<h2>Andere Anfragen:</h2>
-{% if request_list %}
-
-
-<ul class="center-block list-group todo-list">
-  {% for request in request_list %}
-
-  <li class="list-group-item todo-list-item">
-    <div class="row">
-      <h4 class="col-sm-9 col-xs-8">
-        {{request.misc}}
-      </h4>
-      <div class="col-sm-3 col-xs-4">
-        <div class="btn-group pull-right">
-          <button type="button" class="btn btn-info btn-l pull-right">reagieren</button>
-        </div>
-      </div>
-    </div>
-  </li>
-
-  {% endfor %}
-</ul>
-
-{% else %}
-
-<div class="alert alert-info" role="alert">
-  There are currently no Todos
-</div>
 
 {% endif %}
 {% endblock %}
