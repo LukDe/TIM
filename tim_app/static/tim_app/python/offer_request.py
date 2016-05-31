@@ -63,12 +63,13 @@ def add_request(request):
     new_prio = request.POST.get('prio', None)
 
     allowed_goods = {'water', 'food', 'woundcare' , 'clothes' , 'accomodation', 'other'}
-    try:
-        int(new_quantity)
-    except (ValueError, TypeError):
-        return render(request, 'tim_app/request.html', {
-            'error_message': "Bitte geben sie eine gültige Anzahl an.",
-        })
+    if new_goodtype != 'other':
+        try:
+            int(new_quantity)
+        except (ValueError, TypeError):
+            return render(request, 'tim_app/request.html', {
+                'error_message': "Bitte geben sie eine gültige Anzahl an.",
+            })
     try:
         int(new_location)
     except (ValueError, TypeError):
@@ -93,7 +94,7 @@ def add_request(request):
         return render(request, 'tim_app/request.html', {
             'error_message': "Bitte geben sie eine Beschreibung ihrer Anfrage ein",
     })
-    if int(new_quantity) < 1:
+    if new_goodtype != 'other' and int(new_quantity) < 1:
         return render(request, 'tim_app/request.html', {
             'error_message': "Bitte geben sie eine gültige Anzahl an.",
         })
@@ -109,8 +110,10 @@ def add_request(request):
     user = User.objects.get(pk='Bob')
     if new_goodtype == 'other':
         misc = new_desc
+        new_quantity = 0
     else:
         misc = 'NULL'
+
         
     new_request = Request(username = user, goodName = category, misc = misc, quantity = new_quantity, priority = new_prio, postalCode = new_location)
     Request.create(new_request)

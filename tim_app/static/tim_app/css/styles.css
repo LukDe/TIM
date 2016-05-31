@@ -59,6 +59,8 @@ body {
 
 .top-buffer { margin-top:50px; }
 
+.bottom-buffer { margin-bottom:20px; }
+
 .tim-list-container {
   max-width: 900px;
   max-height: 100%;
