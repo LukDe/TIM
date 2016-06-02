@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from ....models import User, Good, Request, Supply
 
+#Adds an offer to the Database
 def add_offer(request):
     new_goodtype = request.POST.get('optgood', None)
     new_quantity = request.POST.get('unit',None)
@@ -55,6 +56,7 @@ def add_offer(request):
 
     return HttpResponseRedirect(reverse('tim_app:ranking'))
 
+#Adds a request to the Database
 def add_request(request):
     new_goodtype = request.POST.get('optgood', None)
     new_desc = request.POST.get('other', None)

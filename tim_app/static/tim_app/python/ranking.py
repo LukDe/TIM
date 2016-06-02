@@ -1,5 +1,6 @@
 from ....models import User, Good, Request, Supply
 
+#Creates a context for ranking.html that includes all misc. requests and the total request amounts of standard goods
 def get_context():
     misc_requests = Request.objects.all().filter(goodName = Good.objects.get(pk = "other"))
     water_requests = Request.objects.all().filter(goodName = Good.objects.get(pk = "water"))
