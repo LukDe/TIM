@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # Initial app page.
     url(r'^tim/', include('tim_app.urls')),
+    # Our REST api
+    url(r'^api/', include('api.urls'))
 ]
 
 # Icon folder
