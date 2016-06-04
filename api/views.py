@@ -1,10 +1,21 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
-from tim_app.models import Good
-from api.serializers import GoodSerializer
+from tim_app.models import Good, Request
+from api.serializers import GoodSerializer, RequestSerializer
 
 
+@csrf_exempt
+@api_view(['GET'])
+def request_list(request, format=None):
+    if request.method == 'GET':
+        requests = Request.objects.all()
+        serializer = RequestSerializer(requests, many=True)
+        return Response(serializer.data)
+
+
+@csrf_exempt
 @api_view(['GET', 'POST'])
 def good_list(request, format=None):
     if request.method == 'GET':
