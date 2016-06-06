@@ -1,3 +1,23 @@
+##
+## Views.py
+##
+## This file defines the views for the application. Since they represent a REST Api,
+## they only return Json objects, instead of Html files. At the moment all views are open
+## for the user (which sould be later changed with authorization and authetication.)
+##
+## Each view receives a Request, and each request can be one of the following methods:
+## - GET (gets a resource)
+## - POST (partially updates or creates a resource)
+## - DELETE (deletes a resource)
+## - PUT (updates a resource), probably not going to be used on the app.
+##
+## For example:
+##    GET localhost:8000/api/goods, should get a list of all Good models on the app.
+##    POST localhost:8000/api/goods + json, should create a new Good models on the app.
+##    DELETE localhost:8000/api/goods, should delete all Good models on the app.
+##
+## Note that the example above is just a convention, different approaches could be used.
+##
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +26,12 @@ from tim_app.models import Good, Request
 from api.serializers import GoodSerializer, RequestSerializer
 
 
+# This is a view definition, the same way as views on tim_app.
+# The difference is that this views return Json Objects as responses,
+# instead of Html files, the conversion model -> json is given by the respective
+# Serializer defined in `serializers.py`.
+# Inside the view it is checked the method of the request (request.method), that
+# way we can create different functionalities for different methods.
 @csrf_exempt
 @api_view(['GET'])
 def request_list(request, format=None):
