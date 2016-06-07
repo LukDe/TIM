@@ -22,8 +22,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
-from tim_app.models import Good, Request
-from api.serializers import GoodSerializer, RequestSerializer
+from tim_app.models import Good, Request, User
+from tim_app.models import Supply as Offer
+from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer
 
 
 # This is a view definition, the same way as views on tim_app.
@@ -34,12 +35,96 @@ from api.serializers import GoodSerializer, RequestSerializer
 # way we can create different functionalities for different methods.
 @csrf_exempt
 @api_view(['GET'])
+def user_list(request, format=None):
+    if request.method == 'GET':
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
+@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
+def user_detail(request, name, format=None):
+    try:
+        user = User.objects.get(username=name)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = UserSerializer(request, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+@api_view(['GET'])
 def request_list(request, format=None):
     if request.method == 'GET':
         requests = Request.objects.all()
         serializer = RequestSerializer(requests, many=True)
         return Response(serializer.data)
 
+@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
+def request_detail(request, reqid, format=None):
+    try:
+        req = Request.objects.get(id=reqid)
+    except Request.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = RequestSerializer(req)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = RequestSerializer(request, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+@api_view(['GET'])
+def offer_list(request, format=None):
+    if request.method == 'GET':
+        offers = Offer.objects.all()
+        serializer = OfferSerializer(offers, many=True)
+        return Response(serializer.data)
+
+@csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
+def offer_detail(request, offid, format=None):
+    try:
+        offer = Offer.objects.get(id=offid)
+    except Offer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = OfferSerializer(offer)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = OfferSerializer(request, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        snippet.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -78,3 +163,4 @@ def good_detail(request, name, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

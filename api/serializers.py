@@ -6,7 +6,7 @@
 ## must have a serializer.
 ##
 from rest_framework import serializers
-from tim_app.models import Good, Request
+from tim_app.models import Good, Request, Supply, User
 
 
 # Parses a Good model from tim_app.models.Good.
@@ -29,4 +29,27 @@ class RequestSerializer(serializers.ModelSerializer):
             'quantity', 'priority',
             'catastrophy', 'postalCode',
             'creationDate'
+        )
+
+# Parses a Supply model from tim_app.models.Offer.
+# The fields behave in the same way as GoodSerializer's fields do.
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Supply
+        fields = (
+            'id', 'username',
+            'goodName', 'misc',
+            'quantity', 'postalCode',
+            'creationDate'
+        )
+
+# Parses a User model from tim_app.models.Offer.
+# The fields behave in the same way as GoodSerializer's fields do.
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'password', 'mobile',
+            'email', 'postalCode',
         )

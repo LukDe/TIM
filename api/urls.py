@@ -6,6 +6,11 @@ urlpatterns = [
     url(r'^goods/$', views.good_list),
     url(r'^goods/([a-zA-Z]+)$', views.good_detail),
     url(r'^requests/$', views.request_list),
+    url(r'^requests/([0-9]+)$', views.request_detail),
+    url(r'^offers/$', views.offer_list),
+    url(r'^offers/([0-9]+)$', views.offer_detail),
+    url(r'^users/$', views.user_list),
+    url(r'^users/([a-zA-Z0-9]+)$', views.user_detail),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
