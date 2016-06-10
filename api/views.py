@@ -25,7 +25,7 @@ from rest_framework.response import Response
 from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer
-
+from api.static import user_delete
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -33,6 +33,10 @@ from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, 
 # Serializer defined in `serializers.py`.
 # Inside the view it is checked the method of the request (request.method), that
 # way we can create different functionalities for different methods.
+
+#testcase can be deleted in the future
+user_delete.hello()
+
 @csrf_exempt
 @api_view(['GET'])
 def user_list(request, format=None):
@@ -62,6 +66,7 @@ def user_detail(request, name, format=None):
 
     elif request.method == 'DELETE':
         snippet.delete()
+        user_delete.delete_user()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
