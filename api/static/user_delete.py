@@ -7,3 +7,4 @@ def hello():
     print('test')
 
 def delete_user():
+    i=0

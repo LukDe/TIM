@@ -66,7 +66,7 @@ def user_detail(request, name, format=None):
 
     elif request.method == 'DELETE':
         snippet.delete()
-        user_delete.delete_user()
+        #user_delete.delete_user()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
