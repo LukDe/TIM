@@ -35,7 +35,6 @@ from api.static import user_delete
 # way we can create different functionalities for different methods.
 
 #testcase can be deleted in the future
-user_delete.hello()
 
 @csrf_exempt
 @api_view(['GET'])
@@ -65,8 +64,7 @@ def user_detail(request, name, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
-        #user_delete.delete_user()
+        user_delete.delete_user(name)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
