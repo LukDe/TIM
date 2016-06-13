@@ -21,7 +21,7 @@ class Request(models.Model):
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
 	priority = models.PositiveSmallIntegerField(validators=[MaxValueValidator(3)])
-	catastrophy = models.CharField(max_length = 128)
+	catastrophy = models.CharField(max_length = 128, blank = True)
 	postalCode = models.CharField(max_length = 32)
 	creationDate = models.DateTimeField(default = timezone.now)
 

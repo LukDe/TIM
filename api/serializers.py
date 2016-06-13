@@ -51,5 +51,5 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'username',
             'password', 'mobile',
-            'email', 'postalCode',
+            'email', 'postalCode'
         )
