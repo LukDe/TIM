@@ -25,9 +25,9 @@ class RequestSerializer(serializers.ModelSerializer):
         model = Request
         fields = (
             'id', 'username',
-            'goodName', 'misc',
+            'goodName', 'active', 'misc',
             'quantity', 'priority',
-            'catastrophy', 'postalCode',
+            'location', 'radius',
             'creationDate'
         )
 
@@ -38,8 +38,8 @@ class OfferSerializer(serializers.ModelSerializer):
         model = Supply
         fields = (
             'id', 'username',
-            'goodName', 'misc',
-            'quantity', 'postalCode',
+            'goodName', 'active', 'misc',
+            'quantity', 'location', 'radius'
             'creationDate'
         )
 
@@ -50,6 +50,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             'username',
-            'password', 'mobile',
-            'email', 'postalCode'
+            'password', 'phoneNr',
+            'email', 'location', 'radius'
         )
