@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^offers/([0-9]+)$', views.offer_detail),
     url(r'^users/$', views.user_list),
     url(r'^users/([a-zA-Z0-9]+)$', views.user_detail),
+    url(r'^login/$', views.login),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -24,7 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
-from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer
+from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer
 
 
 # This is a view definition, the same way as views on tim_app.
@@ -63,6 +63,28 @@ def user_detail(request, name, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@csrf_exempt
+@api_view(['POST'])
+def login(request, format=None):
+    if request.method == 'POST':
+        login_form_serializer = LoginFormSerializer(data = request.data)
+        if login_form_serializer.is_valid():
+            req_username = login_form_serializer.validated_data.get('username')
+            req_password = login_form_serializer.validated_data.get('password')
+            try:
+                user = User.objects.get(username=req_username)
+            except User.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+            if user.password != req_password:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                user_serializer = UserSerializer(user)
+                return Response(user_serializer.data)
+    else:
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 @csrf_exempt
 @api_view(['GET', 'POST'])

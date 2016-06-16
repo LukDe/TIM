@@ -53,3 +53,10 @@ class UserSerializer(serializers.ModelSerializer):
             'password', 'mobile',
             'email', 'postalCode'
         )
+
+
+# Dummy LoginForm serializers.
+# TODO: Fix this thing with a correct method (authentication)
+class LoginFormSerializer(serializers.Serializer):
+	username = serializers.CharField(max_length = 32)
+	password = serializers.CharField(max_length = 32)
