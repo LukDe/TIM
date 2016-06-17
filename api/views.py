@@ -34,13 +34,19 @@ from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, 
 # Inside the view it is checked the method of the request (request.method), that
 # way we can create different functionalities for different methods.
 @csrf_exempt
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def user_list(request, format=None):
     if request.method == 'GET':
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
-
+    elif request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print (serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request, name, format=None):
