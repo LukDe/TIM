@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'tim_app',
+    'api',
+    'sms',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,3 +138,8 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000'
 )
+
+# Twilio Settings
+TWILIO_ACCOUNT_SID = 'AC22b2c5b85531fe5383ad0e9bebb88259'
+TWILIO_AUTH_TOKEN = 'ec3c84ad3370157c456d61813b53fe3a'
+TWILIO_PHONE_NUMBER = '+4915735981041'
