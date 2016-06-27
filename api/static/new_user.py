@@ -17,6 +17,5 @@ def create_user_complete(userName, passw, number, mail, position, rad):
     if User.objects.filter(username=userName):
         print('username is already taken')
     else:
-        # random password has to be added
         u = User(username=userName, password=passw, phoneNr=number, email=mail, location=position, radius= rad)
         u.save()
