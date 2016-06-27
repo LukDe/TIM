@@ -47,6 +47,8 @@ def user_list(request, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request, name, format=None):
@@ -69,6 +71,7 @@ def user_detail(request, name, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -106,6 +109,8 @@ def request_list(request, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 def request_detail(request, reqid, format=None):
@@ -129,6 +134,7 @@ def request_detail(request, reqid, format=None):
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 @csrf_exempt
 @api_view(['GET', 'POST'])
 def offer_list(request, format=None):
@@ -136,6 +142,7 @@ def offer_list(request, format=None):
         offers = Offer.objects.all()
         serializer = OfferSerializer(offers, many=True)
         return Response(serializer.data)
+
     elif request.method == 'POST':
         serializer = OfferSerializer(data=request.data)
         if serializer.is_valid():
@@ -143,6 +150,8 @@ def offer_list(request, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
 def offer_detail(request, offid, format=None):

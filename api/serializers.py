@@ -39,7 +39,7 @@ class OfferSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'username',
             'goodName', 'active', 'misc',
-            'quantity', 'location', 'radius'
+            'quantity', 'location', 'radius',
             'creationDate'
         )
 
