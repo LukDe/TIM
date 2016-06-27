@@ -26,7 +26,6 @@ from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer
 
-
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
 # instead of Html files, the conversion model -> json is given by the respective
