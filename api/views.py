@@ -26,9 +26,13 @@ from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer
 
-#to be deleted
+#test cases, to be deleted
 from api.static import new_user
 new_user.create_user_phone('Gerome',1234)
+from api.static import passManagement
+passManagement.getPass('Gerome')
+print(passManagement.checkPass('Gerome',1234,passManagement.getPass('Gerome')))
+
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
