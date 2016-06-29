@@ -25,7 +25,9 @@ from rest_framework.response import Response
 from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer
+from api.static import new_user
 
+new_user.create_user_phone('Walter',123)
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
 # instead of Html files, the conversion model -> json is given by the respective
