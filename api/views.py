@@ -64,10 +64,12 @@ def user_detail(request, name, format=None):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = UserSerializer(request, data=request.data)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':

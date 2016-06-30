@@ -54,7 +54,6 @@ class UserSerializer(serializers.ModelSerializer):
             'email', 'location', 'radius'
         )
 
-
 # Dummy LoginForm serializers.
 # TODO: Fix this thing with a correct method (authentication)
 class LoginFormSerializer(serializers.Serializer):
