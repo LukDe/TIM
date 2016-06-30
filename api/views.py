@@ -24,8 +24,9 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
-from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer
-
+from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer, VerificationSerializer
+from sms.utils import send_sms_message
+from api.static import passGen
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -47,7 +48,6 @@ def user_list(request, format=None):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -93,7 +93,6 @@ def login(request, format=None):
                 return Response(user_serializer.data)
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -213,3 +212,21 @@ def good_detail(request, name, format=None):
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@csrf_exempt
+@api_view(['POST'])
+def verification(request, format=None):
+    if request.method == 'POST':
+        verify = passGen.generate()
+        print("send Sms ")
+        send_sms_message(
+            request.data['phoneNr'],
+            'Dein Bestätigungscode lautet: ' + verify)
+        verificationSerializer = VerificationSerializer(data = {"verification":verify})
+        if verificationSerializer.is_valid():
+            print(verificationSerializer.data)
+            return Response(verificationSerializer.data)
+        else:
+            print(verificationSerializer.errors)
+            return Response(verificationSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

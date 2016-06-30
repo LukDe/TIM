@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^users/$', views.user_list),
     url(r'^users/([a-zA-Z0-9]+)$', views.user_detail),
     url(r'^login/$', views.login),
+    url(r'^verification/$', views.verification)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
