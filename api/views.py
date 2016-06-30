@@ -27,6 +27,8 @@ from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer, VerificationSerializer
 from sms.utils import send_sms_message
 from api.static import passGen
+import api.expiration as exp
+
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -98,7 +100,8 @@ def login(request, format=None):
 @api_view(['GET', 'POST'])
 def request_list(request, format=None):
     if request.method == 'GET':
-        requests = Request.objects.all()
+        exp.check_if_expired()
+        requests = Request.objects.all().filter(active = True)
         serializer = RequestSerializer(requests, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
@@ -147,6 +150,7 @@ def offer_list(request, format=None):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print (serializer.data)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
