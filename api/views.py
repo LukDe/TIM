@@ -64,14 +64,16 @@ def user_detail(request, name, format=None):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = UserSerializer(request, data=request.data)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -133,7 +135,7 @@ def request_detail(request, reqid, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        req.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -175,7 +177,7 @@ def offer_detail(request, offid, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        offer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
@@ -234,3 +236,19 @@ def verification(request, format=None):
             return Response(verificationSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+		
+@api_view(['POST'])
+def initiate_contact(request, offusername,requsername, format=None):
+	if request.method == 'POST':
+		try:
+			offeringUser = User.objects.get(username=offusername)
+			requestingUser = User.objects.get(username=requsername)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		send_sms_message(offeringUser.phoneNr,'Kontakt zum Suchenden: ' + requestingUser.phoneNr)
+		send_sms_message(requestingUser.phoneNr,'Kontakt zum Helfenden: ' + offeringUser.phoneNr)
+		#send_sms_message('015752377234','Test')
+		return Response(status=status.HTTP_200_OK)
+	else:
+		return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
