@@ -28,7 +28,7 @@ from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, 
 from sms.utils import send_sms_message
 from api.static import passGen
 import api.expiration as exp
-
+from api.static.match import find_match_for_request, find_match_for_supply
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -129,6 +129,7 @@ def request_detail(request, reqid, format=None):
         serializer = RequestSerializer(request, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            find_match_for_request(reqid)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -171,6 +172,7 @@ def offer_detail(request, offid, format=None):
         serializer = OfferSerializer(request, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            find_match_for_supply(offid)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
