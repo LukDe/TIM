@@ -119,10 +119,9 @@ def request_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 def request_detail(request, reqid, format=None):
     try:
-        req = Request.objects.get(id=reqid)
+	    req = Request.objects.get(id=reqid)
     except Request.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = RequestSerializer(req)
         return Response(serializer.data)
@@ -239,16 +238,19 @@ def verification(request, format=None):
 
 		
 @api_view(['POST'])
-def initiate_contact(request, offusername,requsername, format=None):
+def initiate_contact(request,reqid,offusername, format=None):
 	if request.method == 'POST':
+		if reqid == 'undefined' or offusername == 'undefined':
+			return Response(status=status.HTTP_404_NOT_FOUND)
 		try:
-			offeringUser = User.objects.get(username=offusername)
-			requestingUser = User.objects.get(username=requsername)
+			req = Request.objects.get(id=reqid)
+			requser = User.objects.get(username=req.username)
+			offuser = User.objects.get(username=offusername)
 		except User.DoesNotExist:
 			return Response(status=status.HTTP_404_NOT_FOUND)
-		send_sms_message(offeringUser.phoneNr,'Kontakt zum Suchenden: ' + requestingUser.phoneNr)
-		send_sms_message(requestingUser.phoneNr,'Kontakt zum Helfenden: ' + offeringUser.phoneNr)
-		#send_sms_message('015752377234','Test')
+		Request.objects.filter(id=reqid).update(active = False)
+		send_sms_message(offuser.phoneNr,'Sie haben auf eine Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Suchenden: ' + requser.phoneNr)
+		send_sms_message(requser.phoneNr,'Es wurde auf Ihre Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Helfenden: ' + offuser.phoneNr)
 		return Response(status=status.HTTP_200_OK)
 	else:
 		return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
