@@ -12,4 +12,4 @@ def check_if_expired():
       print (r.goodName)
       r.active = False
       r.save()
-      send_sms_message(r.username.phoneNr, "TIM: Your request for %s just expired" %(r.goodName))
+      send_sms_message(r.username.phoneNr, 'TIM: Your request for %s just expired' %(r.goodName))
