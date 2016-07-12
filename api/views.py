@@ -25,10 +25,11 @@ from rest_framework.response import Response
 from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer, VerificationSerializer
-from sms.utils import send_sms_message
+from sms.utils import send_sms_message, parse_sms_request
 from api.static import passGen
 import api.expiration as exp
-
+import twilio.twiml
+from django.http import HttpResponse
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -105,6 +106,11 @@ def request_list(request, format=None):
         serializer = RequestSerializer(requests, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        try:
+            Good.objects.get(goodName = request.data['goodName'])
+        except Good.DoesNotExist:
+            g = Good(goodName = request.data['goodName'], unit = "", description = "")
+            g.save()
         serializer = RequestSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -146,6 +152,11 @@ def offer_list(request, format=None):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        try:
+            Good.objects.get(goodName = request.data['goodName'])
+        except Good.DoesNotExist:
+            g = Good(goodName = request.data['goodName'], unit = "", description = "")
+            g.save()
         serializer = OfferSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -153,7 +164,6 @@ def offer_list(request, format=None):
         print (serializer.data)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @csrf_exempt
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -232,5 +242,33 @@ def verification(request, format=None):
         else:
             print(verificationSerializer.errors)
             return Response(verificationSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+@csrf_exempt
+@api_view(['POST'])
+def sms_request(request, format=None):
+    if request.method == 'POST':
+        number = request.data['From']
+        received_sms = request.data['Body']
+        formatted_msg = parse_sms_request(received_sms)
+        resp = twilio.twiml.Response()
+        try:
+            user = User.objects.get(phoneNr = number)
+        except User.DoesNotExist:
+                resp.message("Bitte erstellen sie zuerst einen Account")
+                return HttpResponse(resp, content_type='text/xml')
+        if formatted_msg.error != '':
+            resp.message(formatted_msg.error)
+        if formatted_msg.type == 'offer':
+            o = Offer(username = user, goodName = formatted_msg.goodName, quantity = formatted_msg.quantity, location = user.location, radius = 0)
+            o.save()
+            resp.message("Gebot für " + formatted_msg.goodName + " erfolgreich erstellt.")
+        elif formatted_msg.type == 'request':
+            r = Request(username = user, goodName = formatted_msg.goodName, quantity = formatted_msg.quantity, location = user.location, radius = 0, priority = 1)
+            r.save()
+            resp.message("Anfrage nach " + formatted_msg.goodName + " erfolgreich erstellt.")
+        else:
+            resp.message("Fehler")
+        return HttpResponse(resp, content_type='text/xml')
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
