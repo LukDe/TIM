@@ -28,6 +28,7 @@ def find_match_for_request(rid):
     if len(exact_matches) > 0:
         exact_matches = sorted(exact_matches, key=lambda supply: distance(supply.location, request.location))
         # exact match found, send sms
+        print("match complete")
         match(request, exact_matches[0])
         #deactivate request and offer
         Request.objects.filter(id = rid).update(active = False)
@@ -38,11 +39,16 @@ def find_match_for_request(rid):
 		
     # if no exact matches exist, prefer smallest one with quantity > that of the request
     if len(exact_matches) == 0:
-        good_matches = sorted(supply_list.filter(lambda x : x.quantity > request.quantity), key=lambda supply: (supply.quantity, distance(supply.location, request.location)))
-        # if no good matches(ones that satisfy the request) exist, find one that satisfies a part of it
+        #good_matches = sorted(supply_list.filter(lambda x : x.quantity > request.quantity), key=lambda supply: (supply.quantity, distance(supply.location, request.location)))
+        good_matches = [x for x in supply_list if x.quantity > request.quantity]
+        good_matches = sorted(supply_list, key=lambda supply: (supply.quantity, distance(supply.location, request.location)))		
+		# if no good matches(ones that satisfy the request) exist, find one that satisfies a part of it
         if not good_matches:
             #sort offers and take the biggest one
-            other_matches = sorted(supply_list.filter(lambda x : x.quantity < request.quantity), key=lambda supply: (-supply.quantity, distance(supply.location, request.location)))
+            #other_matches = sorted(supply_list.filter(lambda x : x.quantity < request.quantity), key=lambda supply: (-supply.quantity, distance(supply.location, request.location)))
+            other_matches = [x for x in supply_list if x.quantity < request.quantity]
+            other_matches = sorted(supply_list, key=lambda supply: (-supply.quantity, distance(supply.location, request.location)))
+            print("match incomplete")
             match_incomplete(request, other_matches[0])
 
             #deactivate request and offer
@@ -52,12 +58,14 @@ def find_match_for_request(rid):
 	       # create inactive remainder entry (with different primary key) 
             remainder = copy.deepcopy(Request.objects.get(id = rid))
             remainder.quantity = request.quantity - other_matches[0].quantity
+            remainder.active = False
             remainder.pk = None
             remainder.save()
             return True
 			
         #choose the smallest offer that satisfies request
-        match_incomplete(request, good_matches[0])		
+        match_incomplete(request, good_matches[0])
+        print("match incomplete")
         #deactivate request and offer
         Request.objects.filter(id = rid).update(active = False)
         Supply.objects.filter(id = good_matches[0].id).update(active = False) 
@@ -91,6 +99,7 @@ def find_match_for_supply(sid):
                                                      distance(r.location, supply.location)))
         #exact match found
         match(exact_matches[0], supply)
+        print("match complete")		
         #deactivate request and offer
         Supply.objects.filter(id = sid).update(active = False)
         Request.objects.filter(id = exact_matches[0].id).update(active = False)
@@ -107,6 +116,7 @@ def find_match_for_supply(sid):
             other_matches_sorted = sorted(other_matches, key=lambda request: (request.quantity, distance(request.location, supply.location)))
 
             match_incomplete(other_matches[0], supply)
+            print("match incomplete")			
             #deactivate request and offer
             Supply.objects.filter(id = sid).update(active = False)
             Request.objects.filter(id = other_matches_sorted[0].id).update(active = False)			
@@ -115,6 +125,7 @@ def find_match_for_supply(sid):
             remainder = copy.deepcopy(Request.objects.get(id = other_matches_sorted[0].id))
             remainder.quantity = other_matches_sorted[0].quantity - supply.quantity
             remainder.pk = None
+            remainder.active = False
             remainder.save()
             return True
 
@@ -122,6 +133,7 @@ def find_match_for_supply(sid):
         good_matches_sorted = sorted(good_matches, key = lambda request:( (supply.quantity - request.quantity), -(request.creationDate + timedelta(days = request.priority)),
                                                      distance(request.location, supply.location))) # same as above
         match_incomplete(good_matches_sorted[0], supply)
+        print("match incomplete")
         #deactivate request and offer
         Supply.objects.filter(id = sid).update(active = False)
         Request.objects.filter(id = good_matches_sorted[0].id).update(active = False)
@@ -167,12 +179,12 @@ def match_incomplete(r, s):
 def distance(location1, location2):
     #calculate distance between request and offer and return the value
     # split string (in format "longitude,latitude")
-    location1 = location1.split(",")
-    location2 =  location2.split(",")
-    lon1 = float(location1[0])
-    lat1 = float(location1[1])
-    lon2 = float(location2[0])
-    lat2 = float(location2[1])
+    location_1 = location1.split(",")
+    location_2 =  location2.split(",")
+    lon1 = float(location_1[0])
+    lat1 = float(location_1[1])
+    lon2 = float(location_2[0])
+    lat2 = float(location_2[1])
     # convert decimal degrees to radians 
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
     # haversine formula 
