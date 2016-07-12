@@ -4,7 +4,7 @@ from sms.utils import send_sms_message
 import copy
 from datetime import timedelta
 
-#matches with one or more supply objects if possible, returns true on success
+#matches with one or more supply objects if possible, returns true on success 
 def find_match_for_request(rid):
     request = Request.objects.get(id = rid)
 
