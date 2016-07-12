@@ -18,8 +18,8 @@ def parse_sms_request(request):
     """
     Parses a string received as sms from the user. The function assumes
     a format of `request/offer,goodName,quantity`. If the message is not on the
-    correct format, returns `None`, otherwise a dictionary, with keys as:
-       type, goodName, quantity
+    correct format, returns a dictionary with an error key,
+    otherwise a dictionary with keys: `type, goodName, quantity`
     """
     def error(msg):
         return {
