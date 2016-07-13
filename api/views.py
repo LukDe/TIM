@@ -98,7 +98,7 @@ def login(request, format=None):
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
-def request_list(request, format=None)--:
+def request_list(request, format=None):
     if request.method == 'GET':
         exp.check_if_expired()
         requests = Request.objects.all().filter(active = True)
@@ -221,6 +221,7 @@ def good_detail(request, name, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @csrf_exempt
 @api_view(['POST'])
