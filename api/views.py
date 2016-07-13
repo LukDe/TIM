@@ -98,7 +98,7 @@ def login(request, format=None):
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
-def request_list(request, format=None):
+def request_list(request, format=None)--:
     if request.method == 'GET':
         exp.check_if_expired()
         requests = Request.objects.all().filter(active = True)
@@ -107,7 +107,9 @@ def request_list(request, format=None):
     elif request.method == 'POST':
         serializer = RequestSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            req = serializer.create(validated_data=serializer.validated_data)
+            print(req.id)
+            find_match_for_request(req)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -149,7 +151,9 @@ def offer_list(request, format=None):
     elif request.method == 'POST':
         serializer = OfferSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            off = serializer.create(validated_data=serializer.validated_data)
+            print(off.id)
+            find_match_for_supply(off.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.data)
         print (serializer.errors)

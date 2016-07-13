@@ -130,8 +130,7 @@ def find_match_for_supply(sid):
             return True
 
 		#smaller request exists, match with the biggest from the smaller requests
-        good_matches_sorted = sorted(good_matches, key = lambda request:( (supply.quantity - request.quantity), -(request.creationDate + timedelta(days = request.priority)),
-                                                     distance(request.location, supply.location))) # same as above
+        good_matches_sorted = sorted(good_matches, key = lambda request:( (supply.quantity - request.quantity), distance(request.location, supply.location))) # same as above
         match_incomplete(good_matches_sorted[0], supply)
         print("match incomplete")
         #deactivate request and offer
