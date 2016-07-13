@@ -8,7 +8,7 @@ class User(models.Model):
 	password = models.CharField(max_length = 32)
 	phoneNr = models.CharField(max_length = 32)
 	email = models.EmailField(blank = True)
-	location = models.CharField(max_length = 32)
+	location = models.CharField(max_length = 128)
 	radius = models.IntegerField(default = 0)
 
 	def __str__(self):
@@ -23,7 +23,7 @@ class Request(models.Model):
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
 	priority = models.PositiveSmallIntegerField(validators=[MaxValueValidator(3)])
-	location = models.CharField(max_length = 32)
+	location = models.CharField(max_length = 128)
 	radius = models.IntegerField(default = 0)
 	creationDate = models.DateTimeField(default = timezone.now)
 
@@ -42,7 +42,7 @@ class Supply(models.Model):
 	active = models.BooleanField(default = True)
 	misc = models.CharField(max_length = 256, blank = True)
 	quantity = models.PositiveSmallIntegerField()
-	location = models.CharField(max_length = 32)
+	location = models.CharField(max_length = 128)
 	radius = models.IntegerField(default = 0)
 	creationDate = models.DateTimeField(default = timezone.now)
 
