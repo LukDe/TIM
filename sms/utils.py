@@ -18,26 +18,51 @@ def parse_sms_request(request):
     """
     Parses a string received as sms from the user. The function assumes
     a format of `request/offer,goodName,quantity`. If the message is not on the
-    correct format, returns a dictionary with an error key,
-    otherwise a dictionary with keys: `type, goodName, quantity`
+    correct format, returns `None`, otherwise a dictionary, with keys as:
+       type, goodName, quantity, radius, priority
     """
-    def error(msg):
-        return {
-            'error': msg,
-        }
+    error_msg = False
+    requestType = 0
+    requestGood = 0
+    requestQuantity = 1
+    requestRadius = 1
+    requestPriority = 1
+    requestMisc = 0
 
     formatted_req = list(map(lambda x: x.strip(), request.split(',')))
-    # The message expects three arguments.
-    if (len(formatted_req) != 3):
-        return error('Expected format: (offer/request),goodName,quantity')
 
-    if (formatted_req[0] != 'offer' and formatted_req[0] != 'request'):
-        return error('Expected format: (offer/request),goodName,quantity')
-
+    if (len(formatted_req) == 0):
+        error_msg = ('Erwartetes Format: offer/request,"Warenname","Anzahl", "Radius", "Priorität"')
+    elif (formatted_req[0] == 'offer'):
+        if (len(formatted_req) != 4):
+            error_msg = ('Erwartetes Format: offer,"Warenname","Anzahl", "Radius"')
+        else:
+            requestType = formatted_req[0]
+            requestGood = formatted_req[1]
+            requestQuantity = formatted_req[2]
+            requestRadius = formatted_req[3]
+    elif (formatted_req[0] == 'request'):
+        if (len(formatted_req) != 5):
+            error_msg = ('Erwartetes Format: request,"Warenname","Anzahl"/"Beschreibung", "Radius", "Priorität"')
+        elif ((int(formatted_req[4]) != 1) and (int(formatted_req[4]) != 2) and (int(formatted_req[4]) != 3)):
+            error_msg = ('Erwartetes Format: request,"Warenname","Anzahl", "Radius", "Priorität"; Priorität muss 1,2 oder 3 sein. ' + formatted_req[4])
+        else:
+            requestType = formatted_req[0]
+            requestGood = formatted_req[1]
+            requestRadius = formatted_req[3]
+            requestPriority = formatted_req[4]
+            if (formatted_req[1] == 'other'):
+                requestMisc = formatted_req[2]
+            else:
+                requestQuantity = formatted_req[2]
     return {
-        'type': formatted_req[0],
-        'goodName': formatted_req[1],
-        'quantity': formatted_req[2],
+        'type': requestType,
+        'goodName': requestGood,
+        'quantity': requestQuantity,
+        'radius': requestRadius,
+        'priority': requestPriority,
+        'misc': requestMisc,
+        'error': error_msg
     }
 
 
