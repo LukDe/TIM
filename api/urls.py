@@ -13,7 +13,8 @@ urlpatterns = [
     url(r'^users/([a-zA-Z0-9]+)$', views.user_detail),
     url(r'^login/$', views.login),
     url(r'^verification/$', views.verification),
-    url(r'^sms_request/$', views.sms_request)
+    url(r'^sms_request/$', views.sms_request),
+	url(r'^initiateContact/([0-9]+)/([a-zA-Z0-9]+)', views.initiate_contact)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

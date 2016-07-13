@@ -26,10 +26,14 @@ from tim_app.models import Good, Request, User
 from tim_app.models import Supply as Offer
 from api.serializers import GoodSerializer, RequestSerializer, OfferSerializer, UserSerializer, LoginFormSerializer, VerificationSerializer
 from sms.utils import send_sms_message, parse_sms_request
-from api.static import passGen
+from api.static import passGen, user_delete
 import api.expiration as exp
+from api.static.match import find_match_for_request, find_match_for_supply
+from api.static import user_delete
+
 import twilio.twiml
 from django.http import HttpResponse
+
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -37,6 +41,7 @@ from django.http import HttpResponse
 # Serializer defined in `serializers.py`.
 # Inside the view it is checked the method of the request (request.method), that
 # way we can create different functionalities for different methods.
+
 @csrf_exempt
 @api_view(['GET','POST'])
 def user_list(request, format=None):
@@ -65,14 +70,16 @@ def user_detail(request, name, format=None):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = UserSerializer(request, data=request.data)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -97,6 +104,7 @@ def login(request, format=None):
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
 @csrf_exempt
 @api_view(['GET', 'POST'])
 def request_list(request, format=None):
@@ -113,7 +121,9 @@ def request_list(request, format=None):
             g.save()
         serializer = RequestSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            req = serializer.create(validated_data=serializer.validated_data)
+            print(req.id)
+            find_match_for_request(req.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -123,10 +133,9 @@ def request_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 def request_detail(request, reqid, format=None):
     try:
-        req = Request.objects.get(id=reqid)
+	    req = Request.objects.get(id=reqid)
     except Request.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = RequestSerializer(req)
         return Response(serializer.data)
@@ -135,11 +144,12 @@ def request_detail(request, reqid, format=None):
         serializer = RequestSerializer(request, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            find_match_for_request(reqid)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        req.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -159,7 +169,9 @@ def offer_list(request, format=None):
             g.save()
         serializer = OfferSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            off = serializer.create(validated_data=serializer.validated_data)
+            print(off.id)
+            find_match_for_supply(off.id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print (serializer.data)
         print (serializer.errors)
@@ -181,12 +193,14 @@ def offer_detail(request, offid, format=None):
         serializer = OfferSerializer(request, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            find_match_for_supply(offid)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        offer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -225,6 +239,7 @@ def good_detail(request, name, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -279,3 +294,22 @@ def sms_request(request, format=None):
         return HttpResponse(resp, content_type='text/xml')
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+@api_view(['POST'])
+def initiate_contact(request,reqid,offusername, format=None):
+	if request.method == 'POST':
+		if reqid == 'undefined' or offusername == 'undefined':
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		try:
+			req = Request.objects.get(id=reqid)
+			requser = User.objects.get(username=req.username)
+			offuser = User.objects.get(username=offusername)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		Request.objects.filter(id=reqid).update(active = False)
+		send_sms_message(offuser.phoneNr,'Sie haben auf eine Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Suchenden: ' + requser.phoneNr)
+		send_sms_message(requser.phoneNr,'Es wurde auf Ihre Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Helfenden: ' + offuser.phoneNr)
+		return Response(status=status.HTTP_200_OK)
+	else:
+		return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)

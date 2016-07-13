@@ -15,7 +15,8 @@ def generate():
         #assembles the array as a string
         passcode= passcode[0]+passcode[1]+passcode[2]+passcode[3]+passcode[4]+passcode[5]
         return passcode
-    
+
+
 #takes username, phone number, password and returns True or None for false
 def check(name,passCode):
     #if the user exists get the user object
@@ -24,6 +25,7 @@ def check(name,passCode):
         #return if True if the password matches
         if temp.verify==passCode:
             return True
+
 
 #converts int to ascii
 def translate(var):
