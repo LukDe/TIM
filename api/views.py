@@ -113,6 +113,11 @@ def request_list(request, format=None):
         serializer = RequestSerializer(requests, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
+        try:
+            Good.objects.get(goodName = request.data['goodName'])
+        except Good.DoesNotExist:
+            g = Good(goodName = request.data['goodName'], unit = "", description = "")
+            g.save()
         serializer = RequestSerializer(data=request.data)
         if serializer.is_valid():
             req = serializer.create(validated_data=serializer.validated_data)
@@ -156,6 +161,11 @@ def offer_list(request, format=None):
         return Response(serializer.data)
 
     elif request.method == 'POST':
+        try:
+            Good.objects.get(goodName = request.data['goodName'])
+        except Good.DoesNotExist:
+            g = Good(goodName = request.data['goodName'], unit = "", description = "")
+            g.save()
         serializer = OfferSerializer(data=request.data)
         if serializer.is_valid():
             off = serializer.create(validated_data=serializer.validated_data)
@@ -180,7 +190,6 @@ def offer_detail(request, offid, format=None):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = OfferSerializer(request, data=request.data)
         if serializer.is_valid():
             serializer.save()
             find_match_for_supply(offid)
