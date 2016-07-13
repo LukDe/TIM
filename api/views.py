@@ -30,6 +30,7 @@ from api.static import passGen
 import api.expiration as exp
 from api.static.match import find_match_for_request, find_match_for_supply
 
+
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
 # instead of Html files, the conversion model -> json is given by the respective
@@ -95,6 +96,7 @@ def login(request, format=None):
                 return Response(user_serializer.data)
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
@@ -183,6 +185,7 @@ def offer_detail(request, offid, format=None):
     elif request.method == 'DELETE':
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @csrf_exempt
 @api_view(['GET', 'POST'])
