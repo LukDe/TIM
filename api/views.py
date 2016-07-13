@@ -185,7 +185,7 @@ def offer_detail(request, offid, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        offer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt
