@@ -255,18 +255,25 @@ def sms_request(request, format=None):
         try:
             user = User.objects.get(phoneNr = number)
         except User.DoesNotExist:
-                resp.message("Bitte erstellen sie zuerst einen Account")
+                resp.message("Bitte erstellen sie zuerst einen Account. Ihre Nummer lautet " + number)
                 return HttpResponse(resp, content_type='text/xml')
-        if formatted_msg.error != '':
-            resp.message(formatted_msg.error)
-        if formatted_msg.type == 'offer':
-            o = Offer(username = user, goodName = formatted_msg.goodName, quantity = formatted_msg.quantity, location = user.location, radius = 0)
+        if formatted_msg['error'] != False:
+            resp.message(formatted_msg['error'])
+            return HttpResponse(resp, content_type='text/xml')
+        try:
+            good = Good.objects.get(goodName = formatted_msg['goodName'])
+        except Good.DoesNotExist:
+            g = Good(goodName = formatted_msg['goodName'], unit = "", description = "")
+            g.save()
+            good = Good.objects.get(goodName = formatted_msg['goodName'])
+        if formatted_msg['type'] == 'offer':
+            o = Offer(username = user, goodName = good, quantity = formatted_msg['quantity'], location = user.location, radius = formatted_msg['radius'])
             o.save()
-            resp.message("Gebot für " + formatted_msg.goodName + " erfolgreich erstellt.")
-        elif formatted_msg.type == 'request':
-            r = Request(username = user, goodName = formatted_msg.goodName, quantity = formatted_msg.quantity, location = user.location, radius = 0, priority = 1)
+            resp.message("Gebot für " + formatted_msg['goodName'] + " mit ID " + str(o.id) + " erfolgreich erstellt.")
+        elif formatted_msg['type'] == 'request':
+            r = Request(username = user, goodName = good, quantity = formatted_msg['quantity'], location = user.location, radius = formatted_msg['radius'], priority = formatted_msg['priority'], misc = formatted_msg['misc'])
             r.save()
-            resp.message("Anfrage nach " + formatted_msg.goodName + " erfolgreich erstellt.")
+            resp.message("Anfrage nach " + formatted_msg['goodName'] + " mit ID " + str(r.id) + " erfolgreich erstellt.")
         else:
             resp.message("Fehler")
         return HttpResponse(resp, content_type='text/xml')
