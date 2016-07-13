@@ -29,7 +29,7 @@ from sms.utils import send_sms_message
 from api.static import passGen
 import api.expiration as exp
 from api.static.match import find_match_for_request, find_match_for_supply
-
+from api.static import user_delete
 
 # This is a view definition, the same way as views on tim_app.
 # The difference is that this views return Json Objects as responses,
@@ -37,6 +37,7 @@ from api.static.match import find_match_for_request, find_match_for_supply
 # Serializer defined in `serializers.py`.
 # Inside the view it is checked the method of the request (request.method), that
 # way we can create different functionalities for different methods.
+
 @csrf_exempt
 @api_view(['GET','POST'])
 def user_list(request, format=None):
@@ -72,7 +73,7 @@ def user_detail(request, name, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        user_delete.delete_user(name)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
