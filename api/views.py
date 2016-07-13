@@ -66,14 +66,16 @@ def user_detail(request, name, format=None):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = UserSerializer(request, data=request.data)
+        serializer = UserSerializer(user, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        user_delete.delete_user(name)
+        user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -122,10 +124,9 @@ def request_list(request, format=None):
 @api_view(['GET', 'PUT', 'DELETE'])
 def request_detail(request, reqid, format=None):
     try:
-        req = Request.objects.get(id=reqid)
+	    req = Request.objects.get(id=reqid)
     except Request.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
     if request.method == 'GET':
         serializer = RequestSerializer(req)
         return Response(serializer.data)
@@ -139,7 +140,7 @@ def request_detail(request, reqid, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        req.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -184,7 +185,7 @@ def offer_detail(request, offid, format=None):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        snippet.delete()
+        offer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
@@ -245,3 +246,22 @@ def verification(request, format=None):
             return Response(verificationSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+@api_view(['POST'])
+def initiate_contact(request,reqid,offusername, format=None):
+	if request.method == 'POST':
+		if reqid == 'undefined' or offusername == 'undefined':
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		try:
+			req = Request.objects.get(id=reqid)
+			requser = User.objects.get(username=req.username)
+			offuser = User.objects.get(username=offusername)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		Request.objects.filter(id=reqid).update(active = False)
+		send_sms_message(offuser.phoneNr,'Sie haben auf eine Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Suchenden: ' + requser.phoneNr)
+		send_sms_message(requser.phoneNr,'Es wurde auf Ihre Anfrage nach "'+req.misc+'" reagiert. Kontakt zum Helfenden: ' + offuser.phoneNr)
+		return Response(status=status.HTTP_200_OK)
+	else:
+		return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
