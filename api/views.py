@@ -284,10 +284,12 @@ def sms_request(request, format=None):
         if formatted_msg['type'] == 'offer':
             o = Offer(username = user, goodName = good, quantity = formatted_msg['quantity'], location = user.location, radius = formatted_msg['radius'])
             o.save()
+            find_match_for_supply(o.id)
             resp.message("Gebot für " + formatted_msg['goodName'] + " mit ID " + str(o.id) + " erfolgreich erstellt.")
         elif formatted_msg['type'] == 'request':
             r = Request(username = user, goodName = good, quantity = formatted_msg['quantity'], location = user.location, radius = formatted_msg['radius'], priority = formatted_msg['priority'], misc = formatted_msg['misc'])
             r.save()
+            find_match_for_request(r.id)
             resp.message("Anfrage nach " + formatted_msg['goodName'] + " mit ID " + str(r.id) + " erfolgreich erstellt.")
         else:
             resp.message("Fehler")
